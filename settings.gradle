@@ -1,0 +1,2 @@
+rootProject.name = "DaydreamP1"
+include ':app'
