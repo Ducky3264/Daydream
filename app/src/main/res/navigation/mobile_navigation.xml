@@ -22,4 +22,9 @@
         android:name="com.example.daydreamp1.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="com.example.daydreamp1.ui.messages.MessagesFragment"
+        android:label="@string/title_messages"
+        tools:layout="@layout/messages_fragment" />
 </navigation>
