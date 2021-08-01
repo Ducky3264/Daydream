@@ -3,7 +3,9 @@ package com.example.daydreamp1;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -162,6 +164,12 @@ MainActivity extends AppCompatActivity {
                                         ResponseTypeValues.CODE, // the response_type value: we want a code
                                         Uri.parse("daydream://redirect/oauth")); // the redirect URI to which the auth response is sent
                         authRequest = authRequestBuilder.setScope("openid profile email").build();
+                        SharedPreferences sharedPref = getSharedPreferences("authState", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("authStateV", authState.jsonSerializeString());
+
+                        editor.apply();
+
                         // use serviceConfiguration as needed
                     }
                 });
