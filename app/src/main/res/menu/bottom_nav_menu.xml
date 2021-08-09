@@ -18,10 +18,10 @@
     <item
         android:id="@+id/navigation_messages"
         android:icon="@drawable/ic_dashboard_notification"
-        android:title="@string/title_settings" />
+        android:title="@string/title_messages" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_messages" />
+        android:icon="@drawable/ic_dashboard_settings"
+        android:title="@string/title_settings" />
 
 </menu>

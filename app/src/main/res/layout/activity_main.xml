@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:layout_gravity="left"
+    android:layout_gravity="start"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -31,7 +31,7 @@
         android:id="@+id/nvView"
         android:layout_width="231dp"
         android:layout_height="755dp"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:background="?colorOnPrimary"
         app:menu="@menu/drawer_view" />
     <androidx.constraintlayout.widget.ConstraintLayout

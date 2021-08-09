@@ -27,4 +27,9 @@
         android:name="com.example.daydreamp1.ui.messages.MessagesFragment"
         android:label="@string/title_messages"
         tools:layout="@layout/messages_fragment" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.daydreamp1.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
