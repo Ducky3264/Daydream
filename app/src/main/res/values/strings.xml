@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Daydream</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Sharing</string>
     <string name="title_notifications">Notifications</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
@@ -9,4 +9,6 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="title_settings">Settings</string>
     <string name="title_messages">Messages</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

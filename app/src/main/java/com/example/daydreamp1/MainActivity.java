@@ -1,5 +1,4 @@
 package com.example.daydreamp1;
-
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.PendingIntent;
@@ -9,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +20,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,7 +27,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.RequiresApi;
 //import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -42,8 +40,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.example.daydreamp1.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -63,8 +62,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 import static android.content.ContentValues.TAG;
 
-public class
-MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.daydreamp1.MESSAGE";
     private Toolbar toolbar;
     private DrawerLayout mDrawer;
@@ -73,13 +71,16 @@ MainActivity extends AppCompatActivity {
     private AuthState authState;
     private AuthorizationRequest authRequest;
     private ActivityResultLauncher<Intent> startForResult;
+    private UserContext UC;
+    private int count;
+    public static Activity ma;
     private ActionBarDrawerToggle setupDrawerToggle() {
         // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
         // and will not render the hamburger icon without it.
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
     //This is exclusively for debugging purposes and should absolutely never be used in a production app
-    private void trustEveryone() {
+    /**private void trustEveryone() {
         try {
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
                 public boolean verify(String hostname, SSLSession session) {
@@ -99,11 +100,12 @@ MainActivity extends AppCompatActivity {
         } catch (Exception e) { // should never happen
             e.printStackTrace();
         }
-    }
+    }**/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        trustEveryone();
+        //trustEveryone();
+        ma = this;
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -116,23 +118,9 @@ MainActivity extends AppCompatActivity {
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerToggle.syncState();
         mDrawer.addDrawerListener(drawerToggle);
+        configureAuthenticationHeader();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-
-        /**
-        startForResult = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<Instrumentation.ActivityResult>() {
-                    @Override
-                    public void onActivityResult(Instrumentation.ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // Here, no request code
-                            Intent data = result.getResultData();
-
-                        }
-                    }
-                });**/
-
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications, R.id.navigation_messages, R.id.navigation_settings)
                 .build();
@@ -143,7 +131,7 @@ MainActivity extends AppCompatActivity {
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         AuthorizationServiceConfiguration.fetchFromIssuer(
-                Uri.parse("https://192.168.1.107:443"),
+                Uri.parse("https://www.davidcac.net:443"),
                 new AuthorizationServiceConfiguration.RetrieveConfigurationCallback() {
                     public void onFetchConfigurationCompleted(
                             @Nullable AuthorizationServiceConfiguration serviceConfiguration,
@@ -160,12 +148,11 @@ MainActivity extends AppCompatActivity {
                                         ResponseTypeValues.CODE, // the response_type value: we want a code
                                         Uri.parse("daydream://redirect/oauth")); // the redirect URI to which the auth response is sent
                         authRequest = authRequestBuilder.setScope("openid profile email").build();
-                        SharedPreferences sharedPref = getSharedPreferences("authState", Context.MODE_PRIVATE);
+                        UserContext UC = new UserContext(authState);
+                        SharedPreferences sharedPref = getSharedPreferences("UserContext", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("authStateV", authState.jsonSerializeString());
-
+                        editor.putString("UserContextOBJ", UC.ContextToJSON());
                         editor.apply();
-
                         // use serviceConfiguration as needed
                     }
                 });
@@ -215,46 +202,39 @@ MainActivity extends AppCompatActivity {
 
 
     private void doAuthorization() {
+
         AuthorizationService authService = new AuthorizationService(this);
         Intent authIntent = authService.getAuthorizationRequestIntent(authRequest);
         startForResult.launch(authIntent);
     }
-
-
-
-
-
-
     public void sendhttp(View view) {
+
         AuthorizationService authService = new AuthorizationService(this);
         authService.performAuthorizationRequest(
                 authRequest,
                 PendingIntent.getActivity(this, 0, new Intent(this, AuthAcceptedA.class), 0),
                 PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0));
-        final TextView textView = (TextView) findViewById(R.id.text_home);
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://www.google.com";
-        //I need to connect this back to a web API I think I will build in ASP.NET Core, I also need to find a library for identity with OIDC on Android
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        textView.setText("Response is: " + response.substring(0, 500));
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                textView.setText("That didn't work!");
-            }
-        });
-        queue.add(stringRequest);
     }
-
-// Add the request to the RequestQueue.
-
+    private void configureAuthenticationHeader() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView hText = headerLayout.findViewById(R.id.HeadText);
+        SharedPreferences sharedPref = getSharedPreferences("UserContext", Context.MODE_PRIVATE);
+        String Status = sharedPref.getString("UserContextOBJ", "Guest");
+        if (Status == "Guest") {
+            hText.setText("Guest");
+        } else {
+            if (!(Status == null)) {
+                Gson gson = new Gson();
+                UC = gson.fromJson(Status, UserContext.class);
+                if (UC.getUserDetails().Uname == null) {
+                    updateProfileData();
+                } else {
+                    hText.setText("Welcome, " + UC.getUserDetails().Uname);
+                }
+            }
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         // The action bar home/up action should open or close the drawer.
@@ -265,5 +245,21 @@ MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void updateProfileData() {
+        count = 0;
+        final Handler handler = new Handler();
+        final int delay = 1000; // 1000 milliseconds == 1 second
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (UC.getUserDetails().Uname == null && count <= 15) {
+                    count++;
+                    configureAuthenticationHeader();
+                } else {
+
+                }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
 }
