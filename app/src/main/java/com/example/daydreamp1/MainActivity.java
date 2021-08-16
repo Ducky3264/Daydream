@@ -221,17 +221,15 @@ public class MainActivity extends AppCompatActivity {
         TextView hText = headerLayout.findViewById(R.id.HeadText);
         SharedPreferences sharedPref = getSharedPreferences("UserContext", Context.MODE_PRIVATE);
         String Status = sharedPref.getString("UserContextOBJ", "Guest");
-        if (Status == "Guest") {
-            hText.setText("Guest");
-        } else {
-            if (!(Status == null)) {
-                Gson gson = new Gson();
-                UC = gson.fromJson(Status, UserContext.class);
-                if (UC.getUserDetails().Uname == null) {
-                    updateProfileData();
-                } else {
-                    hText.setText("Welcome, " + UC.getUserDetails().Uname);
-                }
+        hText.setText("Loading...");
+        if (!(Status == null)) {
+            Gson gson = new Gson();
+            UC = gson.fromJson(Status, UserContext.class);
+            if (UC.getUserDetails().Uname == null) {
+                hText.setText("Guest");
+                updateProfileData();
+            } else {
+                hText.setText(UC.getUserDetails().Uname);
             }
         }
     }
@@ -250,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         count = 0;
         final Handler handler = new Handler();
         final int delay = 1000; // 1000 milliseconds == 1 second
+        //TODO: Add handling so that in the case this runs 15 times with no success it sends a refresh token to the identityserver
         handler.postDelayed(new Runnable() {
             public void run() {
                 if (UC.getUserDetails().Uname == null && count <= 15) {
