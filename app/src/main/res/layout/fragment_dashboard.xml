@@ -1,11 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/empty_tall_divider"
     tools:context=".ui.dashboard.DashboardFragment">
 
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="4dp">
+        <RelativeLayout
+            android:id="@+id/activity_story"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="This is an example title to a post."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:layout_below="@+id/textView3"
+                android:layout_marginTop="8dp"
+                android:text="This is an example body to a post." />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="4dp">
+        <RelativeLayout
+            android:id="@+id/activity_story2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/textView2_"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="This is a second example title to a post."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView2_2"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:layout_below="@+id/textView2_"
+                android:layout_marginTop="8dp"
+                android:text="This is a second example body to a post." />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:id="@+id/activity_story3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView3_"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="This is a third example title to a post."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView2_3"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:layout_below="@+id/textView3_"
+                android:layout_marginTop="8dp"
+                android:text="This is a third example body to a post." />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:id="@+id/activity_story4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView4_"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="This is a fourth example title to a post."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView2_4"
+                android:layout_width="match_parent"
+                android:layout_height="144dp"
+                android:layout_below="@+id/textView4_"
+                android:layout_marginTop="-6dp"
+                android:text="This is a fourth example body to a post, containing an image." />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="52dp"
+                android:layout_height="45dp"
+                android:layout_alignTop="@+id/textView2_4"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="61dp"
+                android:layout_marginEnd="185dp"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView2_4"
+                app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/text_dashboard"
         android:layout_width="match_parent"
@@ -19,5 +151,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

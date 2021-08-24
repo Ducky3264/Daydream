@@ -27,14 +27,8 @@
 
             android:layout_height="match_parent" />
     </LinearLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nvView"
-        android:layout_width="231dp"
-        android:layout_height="755dp"
-        android:layout_gravity="start"
-        android:background="?colorOnPrimary"
-        app:menu="@menu/drawer_view"
-        app:headerLayout="@layout/nav_header"/>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/container"
@@ -66,7 +60,14 @@
 
 
 
-
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nvView"
+        android:layout_width="290dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?colorOnPrimary"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_view" />
     <!-- The navigation drawer that comes from the left -->
     <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
 

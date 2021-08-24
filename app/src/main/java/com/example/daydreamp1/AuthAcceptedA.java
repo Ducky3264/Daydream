@@ -4,6 +4,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -111,7 +112,8 @@ public class AuthAcceptedA extends AppCompatActivity {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
-            AuthorizationService authService = new AuthorizationService(this);
+            finish();
+        AuthorizationService authService = new AuthorizationService(this);
             Gson gson = new Gson();
             SharedPreferences sharedPref = getSharedPreferences("UserContext", Context.MODE_PRIVATE);
             String UserContextS = sharedPref.getString("UserContextOBJ", "no key");

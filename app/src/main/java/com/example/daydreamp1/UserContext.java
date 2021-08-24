@@ -1,10 +1,15 @@
 package com.example.daydreamp1;
 import androidx.annotation.NonNull;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import net.openid.appauth.AuthState;
 
+import android.view.View;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -20,10 +25,12 @@ public class UserContext {
         UD = null;
         authState = AU.jsonSerialize();
     }
+
     public static class UserDetails {
         public String Uname;
         public String Email;
         public String Name;
+        public String GName;
         public UserDetails() {
             Uname = null;
             Email = null;
@@ -44,8 +51,9 @@ public class UserContext {
         }
         public UserDetails(Map<String, String> HM) {
             Uname = HM.get("sub");
-            Name = HM.get("given_name");
+            Name = HM.get("name");
             Email = HM.get("email");
+            GName = HM.get("given_name");
         }
     }
     public AuthState getAuthState() {
