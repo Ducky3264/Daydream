@@ -160,31 +160,31 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case R.id.nav_third_fragment:
-
+                //This allows you to run code when the nav bar elements are clicked
                 break;
             case R.id.nav_fourth_fragment:
                 //fragmentClass = MessagesFragment.class;
                 sendhttp(findViewById(android.R.id.content).getRootView());
                 break;
-
         }
-
         try {
             //fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         // Insert the fragment by replacing any existing fragment
        // FragmentManager fragmentManager = getSupportFragmentManager();
         //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
         //setTitle(menuItem.getTitle());
         // Close the navigation drawer
         mDrawer.closeDrawers();
+    }
+    public void OnClickExampleActivity(View view) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
     }
     public void sendhttp(View view) {
         try {

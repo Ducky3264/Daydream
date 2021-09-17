@@ -23,7 +23,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
-
+//This is unfinished, I managed to get a file to amazon s3 but I had some inconsistency with this.
 public class Userfile {
     public Userfile() {
 

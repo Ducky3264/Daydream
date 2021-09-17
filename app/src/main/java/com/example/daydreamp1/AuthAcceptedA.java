@@ -51,11 +51,13 @@ public class AuthAcceptedA extends AppCompatActivity {
     private UserContext UC;
     private final class SendAccessToken extends AsyncTask<LinkedHashMap<String, String>, Void, String> {
         protected String doInBackground(LinkedHashMap<String, String>... jsob) {
-
+            //This code is too messy to be considered finished. Clean up, Compartmentalize and move this to the UserContext class.
             try {
                 String s1 = authState.getAccessToken();
                 url = new URL("https://www.davidcac.net/connect/userinfo");
                 LinkedHashMap<String, String> vals = new LinkedHashMap<>();
+
+                //I found con.setrequestmethod to be an easier way to do this but left vals in in case I wanted to switch back to using this method of adding information to the http request.
                 //vals.put("client_id", "interactive");
                 //vals.put("client_secret", "A8G%(SJT&#");
                 //vals.put("grant_type", "authorization_code");
@@ -87,7 +89,6 @@ public class AuthAcceptedA extends AppCompatActivity {
                 res = res.replaceAll("\\{", "");
                 res = res.replaceAll("\\}", "");
                 String[] pairs = res.split(",");
-
                 for (int i=0;i<pairs.length;i++) {
                     String pair = pairs[i];
                     String[] keyValue = pair.split(":");

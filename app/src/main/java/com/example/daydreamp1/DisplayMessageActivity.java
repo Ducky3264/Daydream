@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-
+//This is not necessary and only for debugging
 public class DisplayMessageActivity extends AppCompatActivity {
 
     @Override
